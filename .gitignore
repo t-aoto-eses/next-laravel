@@ -1,0 +1,6 @@
+# MySQL データ
+docker/database/data/
+
+# node_modules / vendor も除外
+frontend/src/node_modules/
+backend/src/vendor/
