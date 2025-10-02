@@ -7,5 +7,5 @@ Route::get('/', function () {
 });
 
 Route::get('api/test', function () {
-    return response()->json(['message' => 'Hello from Laravel API!']);
+    return response()->json(['message' => 'Laravelから送信したAPIです']);
 });

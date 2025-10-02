@@ -6,13 +6,25 @@ export default function Home() {
   const [message, setMessage] = useState('');
 
   useEffect(() => {
-    fetch('/api/test')
-      .then(res => res.json())
-      .then(data => setMessage(data.message))
-      .catch(err => {
-        console.error('API Error:', err);
-        setMessage('エラーが発生しました');
-      });
+    type ApiResponse = {
+      message: string;
+    };
+
+    const fetchMessage = async () => {
+      try {
+        const res = await fetch('/api/test');
+        const data: ApiResponse = await res.json();
+        setMessage(data.message);
+      } catch (err: unknown) {
+        if (err instanceof Error) {
+          console.error(err.message);
+        } else {
+          console.error('Unknown error', err);
+        }
+      }
+    };
+
+    fetchMessage(); // async関数を呼び出す
   }, []);
 
   return (
