@@ -4,6 +4,7 @@ FROM php:8.4-fpm
 # 作業ディレクトリ
 WORKDIR /var/www/html
 
+# ソースのコピー
 COPY ./backend ./
 
 # 必要なパッケージ・拡張・Xdebug を一括インストール
