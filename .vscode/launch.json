@@ -8,7 +8,9 @@
             "port": 9003,
             "pathMappings": {
                 "/var/www/html": "${workspaceFolder}/backend"
-            }
+            },
+            "log": true,                     // デバッグ接続ログを確認
+            "ignore": ["**/vendor/**/*.php"] // vendor は無視
         }
     ]
 }

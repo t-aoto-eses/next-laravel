@@ -8,6 +8,7 @@ class ApiController extends Controller
 {
     public function test()
     {
-        return response()->json(['message' => 'コントローラーから返したレスポンスです']);
+        $json = response()->json(['message' => 'コントローラーから返したレスポンスです']);
+        return $json;
     }
 }
