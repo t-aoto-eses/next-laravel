@@ -1,4 +1,6 @@
 
+# docker\backend\Dockerfile
+
 FROM php:8.4-fpm
 
 # 作業ディレクトリ
@@ -11,7 +13,7 @@ RUN apt-get update && apt-get install -y \
     && pecl install xdebug \
     && docker-php-ext-enable xdebug
 
-# Composer インストール
+# Composer ダウンロード
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 # php.ini をコピー（xdebug 設定用）

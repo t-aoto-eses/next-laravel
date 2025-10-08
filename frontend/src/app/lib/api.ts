@@ -1,4 +1,5 @@
-// frontend\src\app\lib\api.ts
+// frontend/src/app/lib/api.ts
+import { apiFetch } from '@/app/lib/apiClient'; // パスはプロジェクトに合わせて調整
 
 export type Todo = {
   id: number;
@@ -7,40 +8,29 @@ export type Todo = {
   completed: boolean;
 };
 
-// 簡単にサーバー／クライアントで切り替え
-const BASE_URL =
-  typeof window === 'undefined'
-    ? 'http://nginx_proxy:80/api' // SSR用
-    : 'http://localhost/api';      // クライアント用
-
 export const fetchTodos = async (): Promise<Todo[]> => {
-  const res = await fetch(`${BASE_URL}/todos`);
-  if (!res.ok) throw new Error('Failed to fetch todos');
-  return res.json();
+  return apiFetch<Todo[]>('/api/todos');
 };
 
 export const addTodo = async (title: string, body?: string): Promise<Todo> => {
-  const res = await fetch(`${BASE_URL}/todos`, {
+  return apiFetch<Todo>('/api/todos', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ title, body, completed: false }),
   });
-  return res.json();
 };
 
 export const updateTodo = async (todo: Todo): Promise<Todo> => {
-  const res = await fetch(`${BASE_URL}/todos/${todo.id}`, {
+  return apiFetch<Todo>(`/api/todos/${todo.id}`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(todo),
   });
-  return res.json();
 };
 
-export const deleteTodo = async (id: number) => {
-  // await fetch(`${BASE_URL}/todos/${id}`, { method: 'DELETE' });
-  await fetch(`${BASE_URL}/todos/${id}`, {
+export const deleteTodo = async (id: number): Promise<void> => {
+  await apiFetch<void>(`/api/todos/${id}`, {
     method: 'DELETE',
-    credentials: 'include',
+    credentials: 'include', // 必要なら
   });
 };

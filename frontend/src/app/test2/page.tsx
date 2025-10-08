@@ -1,5 +1,6 @@
 // app/page.tsx
 import React from 'react';
+import { apiFetch } from '@/app/lib/apiClient';
 
 type ApiResponse = {
   message: string;
@@ -10,15 +11,9 @@ export default async function Home() {
     let message = '';
 
     try {
-        const res = await fetch('http://nginx_proxy:80/api/test', {
-            cache: 'no-store', // 毎回 SSR
+        const data: ApiResponse = await apiFetch('/api/test2', {
+            cache: 'no-store', // SSR では毎回取得
         });
-
-        if (!res.ok) {
-            throw new Error(`HTTP error! status: ${res.status}`);
-        }
-
-        const data: ApiResponse = await res.json();
         message = data.message;
     } catch (err: unknown) {
         if (err instanceof Error) {

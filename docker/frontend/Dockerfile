@@ -1,3 +1,6 @@
+
+# docker\frontend\Dockerfile
+
 FROM node:lts
 
 # workdirの設定
@@ -9,5 +12,9 @@ COPY ./frontend/package*.json ./
 # npm install の実行
 RUN npm install
 
-# 残りのソースをコピー
-COPY ./frontend ./
+# 開発用
+CMD ["npm", "run", "dev"]
+
+# 本番用（SSR）
+# RUN npm run build
+# CMD ["npm", "run", "start"]
