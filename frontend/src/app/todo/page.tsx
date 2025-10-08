@@ -1,38 +1,31 @@
 // frontend/src/app/todo/page.tsx
 
-import React from 'react';
-import { fetchTodos, Todo } from '../lib/api';
+import React from "react";
+import { fetchTodos, Todo } from "../lib/api";
+import TodoList from "./TodoList"; // 👈 CSRコンポーネントを追加
 
 export default async function TodosPage() {
   let todos: Todo[] = [];
-  let errorMessage = '';
+  let errorMessage = "";
 
   try {
-    todos = await fetchTodos();
+    todos = await fetchTodos(); // ✅ SSRで初期データ取得
   } catch (err: unknown) {
     if (err instanceof Error) {
       console.error(err.message);
-      errorMessage = 'Todo一覧取得エラー';
+      errorMessage = "Todo一覧取得エラー";
     }
   }
 
-  return (
-    <main className="p-4">
-      <h1 className="text-xl font-bold mb-4">Todo List (SSR)</h1>
+  if (errorMessage) {
+    return <p className="text-red-600 p-4">{errorMessage}</p>;
+  }
 
-      {errorMessage ? (
-        <p className="text-red-600">{errorMessage}</p>
-      ) : (
-        <ul>
-          {todos.map((todo) => (
-            <li key={todo.id} className="mb-2 border p-2 rounded">
-              <h2 className="font-semibold">{todo.title}</h2>
-              {todo.body && <p className="text-gray-600">{todo.body}</p>}
-              <p>ステータス: {todo.completed ? '✅' : '❌'}</p>
-            </li>
-          ))}
-        </ul>
-      )}
-    </main>
+  return (
+    <div className="p-4">
+      <h1 className="text-xl font-bold mb-4">Todo List</h1>
+      {/* ✅ 初期データをCSRコンポーネントに渡す */}
+      <TodoList initialTodos={todos} />
+    </div>
   );
 }

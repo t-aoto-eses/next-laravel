@@ -38,5 +38,9 @@ export const updateTodo = async (todo: Todo): Promise<Todo> => {
 };
 
 export const deleteTodo = async (id: number) => {
-  await fetch(`${BASE_URL}/todos/${id}`, { method: 'DELETE' });
+  // await fetch(`${BASE_URL}/todos/${id}`, { method: 'DELETE' });
+  await fetch(`${BASE_URL}/todos/${id}`, {
+    method: 'DELETE',
+    credentials: 'include',
+  });
 };
