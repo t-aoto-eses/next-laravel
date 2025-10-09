@@ -11,9 +11,7 @@ const getBaseUrl = () => {
 };
 
 export async function apiFetch<T>(path: string, options?: RequestInit): Promise<T> {
-  console.log(path);
   const url = getBaseUrl() + path;
-  console.log(url);
   const res = await fetch(url, options);
   if (!res.ok) throw new Error(`API error: ${res.status}`);
   return res.json();
