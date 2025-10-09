@@ -13,7 +13,7 @@ COPY ./frontend/package*.json ./
 RUN npm install
 
 # 開発用
-CMD ["npm", "run", "dev"]
+# CMD ["npm", "run", "dev"]
 
 # 本番用（SSR）
 # RUN npm run build
