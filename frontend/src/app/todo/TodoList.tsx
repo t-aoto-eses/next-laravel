@@ -5,8 +5,9 @@
 import { useState } from "react";
 import { addTodo, updateTodo, deleteTodo, Todo } from "../lib/api";
 import { toast } from "react-hot-toast";
-import TodoToggleButton from "./TodoToggleButton";
+import TodoAddForm from "./TodoAddForm";
 import TodoEditForm from "./TodoEditForm";
+import TodoToggleButton from "./TodoToggleButton";
 
 type Props = {
   initialTodos: Todo[];
@@ -14,22 +15,18 @@ type Props = {
 
 export default function TodoList({ initialTodos }: Props) {
   const [todos, setTodos] = useState<Todo[]>(initialTodos);
-  const [newTitle, setNewTitle] = useState("");
-  const [newBody, setNewBody] = useState("");
   const [loadingIds, setLoadingIds] = useState<number[]>([]);
   const [adding, setAdding] = useState(false);
   const [filter, setFilter] = useState<"all" | "active" | "completed">("all");
   const [editingId, setEditingId] = useState<number | null>(null);
 
   {/* 追加 */}
-  const handleAdd = async () => {
-    if (!newTitle.trim() || adding) return;
+  const handleAdd = async (title: string, body: string) => {
     setAdding(true);
     try {
-      const newTodo = await addTodo(newTitle, newBody);
+      const newTodo = await addTodo(title, body);
       setTodos((prev) => [...prev, newTodo]);
-      setNewTitle("");
-      setNewBody("");
+      toast.success("追加しました");
     } catch (err) {
       toast.error("追加に失敗しました");
       console.error(err);
@@ -79,31 +76,7 @@ export default function TodoList({ initialTodos }: Props) {
   return (
     <div className="max-w-3xl mx-auto p-4">
       {/* 追加フォーム */}
-      <div className="flex flex-col gap-2 mb-4 border p-3 rounded">
-        <input
-          type="text"
-          value={newTitle}
-          onChange={(e) => setNewTitle(e.target.value)}
-          placeholder="タイトル"
-          className="border p-2 rounded"
-          disabled={adding}
-        />
-        <textarea
-          value={newBody}
-          onChange={(e) => setNewBody(e.target.value)}
-          placeholder="内容（任意）"
-          className="border p-2 rounded"
-          rows={2}
-          disabled={adding}
-        />
-        <button
-          onClick={handleAdd}
-          className="bg-blue-500 text-white px-4 py-2 rounded disabled:opacity-50"
-          disabled={adding}
-        >
-          {adding ? "追加中..." : "追加"}
-        </button>
-      </div>
+      <TodoAddForm onAdd={handleAdd} adding={adding} />
 
       {/* タブ */}
       <div className="flex gap-2 mb-4">
