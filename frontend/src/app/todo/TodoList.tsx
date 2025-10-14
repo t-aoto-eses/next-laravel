@@ -7,6 +7,7 @@ import { addTodo, updateTodo, deleteTodo, Todo } from "../lib/api";
 import { toast } from "react-hot-toast";
 import TodoAddForm from "./TodoAddForm";
 import TodoEditForm from "./TodoEditForm";
+import TodoFilterTabs from "./TodoFilterTabs";
 import TodoToggleButton from "./TodoToggleButton";
 
 type Props = {
@@ -79,26 +80,7 @@ export default function TodoList({ initialTodos }: Props) {
       <TodoAddForm onAdd={handleAdd} adding={adding} />
 
       {/* タブ */}
-      <div className="flex gap-2 mb-4">
-        <button
-          onClick={() => setFilter("all")}
-          className={`px-4 py-2 rounded text-black ${filter === "all" ? "bg-blue-300" : "bg-gray-200"}`}
-        >
-          全件
-        </button>
-        <button
-          onClick={() => setFilter("active")}
-          className={`px-4 py-2 rounded text-black ${filter === "active" ? "bg-blue-300" : "bg-gray-200"}`}
-        >
-          未完了
-        </button>
-        <button
-          onClick={() => setFilter("completed")}
-          className={`px-4 py-2 rounded text-black ${filter === "completed" ? "bg-blue-300" : "bg-gray-200"}`}
-        >
-          完了
-        </button>
-      </div>
+      <TodoFilterTabs filter={filter} onChange={setFilter} />
 
       {/* Todo一覧 */}
       <ul>
